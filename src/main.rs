@@ -1,4 +1,4 @@
-use aoc_2020::day1a::*;
+use aoc_2019::day1a::*;
 
 pub fn main() {
     match solve_day1a() {
