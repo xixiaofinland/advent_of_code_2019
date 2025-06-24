@@ -54,11 +54,11 @@ pub fn solve_day2a() -> AoCResult<usize> {
         .map(str::parse::<usize>)
         .collect::<Result<_, _>>()?;
 
-    for x in 0..100 {
-        for y in 0..100 {
+    for noun in 0..100 {
+        for verb in 0..100 {
             let mut program = program.clone();
-            program[1] = x;
-            program[2] = y;
+            program[1] = noun;
+            program[2] = verb;
 
             let mut index = 0;
             while index < program.len() {
@@ -70,10 +70,10 @@ pub fn solve_day2a() -> AoCResult<usize> {
                 index += 4;
             }
             if program[0] == 19690720 {
-                return Ok(100 * x + y);
+                return Ok(100 * noun + verb);
             }
         }
     }
 
-    panic!("can't find the solution.");
+    Err("No solution found".into())
 }
