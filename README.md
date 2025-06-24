@@ -8,7 +8,7 @@ fn `cal_fuel()` using `match` and calculate `- 2` without `saturating_sub()`
 
 # D2
 ## d2a
-I used `struct` + `enum`, but invalid state appears: opera1_addr, opera2_addr,
+1. I used `struct` + `enum`, but invalid state appears: opera1_addr, opera2_addr,
 and desti_addr are meaningless for `Op::Halt`
 `enum` only is better for this data modeling.
 

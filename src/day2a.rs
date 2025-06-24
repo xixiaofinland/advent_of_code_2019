@@ -48,24 +48,32 @@ fn execute(program: &mut [usize], op: &Operation) {
 
 pub fn solve_day2a() -> AoCResult<usize> {
     let file = fs::read_to_string("data/input_day2a.txt")?;
-    let mut program: Vec<usize> = file
+    let program: Vec<usize> = file
         .trim_end()
         .split(',')
         .map(str::parse::<usize>)
         .collect::<Result<_, _>>()?;
 
-    program[1] = 12;
-    program[2] = 2;
+    for x in 0..100 {
+        for y in 0..100 {
+            let mut program = program.clone();
+            program[1] = x;
+            program[2] = y;
 
-    let mut index = 0;
-    while index < program.len() {
-        let op = Operation::parse(&program[index..]);
-        if matches!(op, Operation::Halt) {
-            break;
+            let mut index = 0;
+            while index < program.len() {
+                let op = Operation::parse(&program[index..]);
+                if matches!(op, Operation::Halt) {
+                    break;
+                }
+                execute(&mut program, &op);
+                index += 4;
+            }
+            if program[0] == 19690720 {
+                return Ok(100 * x + y);
+            }
         }
-        execute(&mut program, &op);
-        index += 4;
     }
 
-    Ok(program[0])
+    panic!("can't find the solution.");
 }
