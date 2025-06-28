@@ -1,6 +1,7 @@
 use crate::AoCResult;
 use std::fs;
 
+#[derive(Debug, Copy, Clone)]
 enum Direction {
     UP,
     DOWN,
@@ -56,6 +57,7 @@ impl From<(isize, isize)> for Point {
 struct Line {
     start: Point,
     end: Point,
+    direction: Direction,
 }
 
 impl Line {
@@ -72,18 +74,22 @@ impl Line {
             UP => Line {
                 start: *p,
                 end: Point::from((p.x, p.y + *distance as isize)),
+                direction: *direction,
             },
             DOWN => Line {
                 start: *p,
                 end: Point::from((p.x, p.y - *distance as isize)),
+                direction: *direction,
             },
             LEFT => Line {
                 start: *p,
                 end: Point::from((p.x - *distance as isize, p.y)),
+                direction: *direction,
             },
             RIGHT => Line {
                 start: *p,
                 end: Point::from((p.x + *distance as isize, p.y)),
+                direction: *direction,
             },
         }
     }
@@ -91,18 +97,28 @@ impl Line {
 
 pub fn solve_day3a() -> AoCResult<usize> {
     let file = fs::read_to_string("data/input_day3a_simple.txt")?;
-    let (line1, line2) = file.split_once('\n').ok_or("can't split")?;
+    let (line1, line2) = file.trim().split_once('\n').ok_or("can't split")?;
 
     let line1_iter = line1.split(',');
-
     let mut lines_one: Vec<Line> = vec![];
     let mut start_point = Point::from((0, 0));
 
     for operation in line1_iter {
-        lines_one.push(Line::new(&start_point, &Move::from(operation)));
+        let line = Line::new(&start_point, &Move::from(operation));
+        start_point = line.end;
+        lines_one.push(line);
     }
 
-    eprintln!("gopro[7]: day3a.rs:97: lines_one={:#?}", lines_one);
+    let line2_iter = line2.split(',');
+    let mut lines_two: Vec<Line> = vec![];
+    let mut start_point = Point::from((0, 0));
+
+    for operation in line2_iter {
+        let line = Line::new(&start_point, &Move::from(operation));
+        start_point = line.end;
+        lines_two.push(line);
+    }
+    eprintln!("gopro[8]: day3a.rs:119: lines_two={:#?}", lines_two);
 
     Ok(0)
 }
