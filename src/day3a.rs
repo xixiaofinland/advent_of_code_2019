@@ -28,7 +28,7 @@ struct Move {
 
 impl From<&str> for Move {
     fn from(input: &str) -> Self {
-        if input.len() != 2 {
+        if input.len() < 2 {
             panic!("bad input: {:?}", input);
         }
 
@@ -36,7 +36,7 @@ impl From<&str> for Move {
 
         Move {
             direction: Direction::from(chars.next().unwrap()),
-            distance: chars.next().unwrap().to_digit(10).unwrap() as usize,
+            distance: chars.collect::<String>().parse().unwrap(),
         }
     }
 }
@@ -96,7 +96,7 @@ impl Line {
 }
 
 pub fn solve_day3a() -> AoCResult<usize> {
-    let file = fs::read_to_string("data/input_day3a_simple.txt")?;
+    let file = fs::read_to_string("data/input_day3a.txt")?;
     let (line1, line2) = file.trim().split_once('\n').ok_or("can't split")?;
 
     let line1_iter = line1.split(',');
@@ -118,7 +118,45 @@ pub fn solve_day3a() -> AoCResult<usize> {
         start_point = line.end;
         lines_two.push(line);
     }
-    eprintln!("gopro[8]: day3a.rs:119: lines_two={:#?}", lines_two);
 
-    Ok(0)
+    let mut min_distance = usize::MAX;
+
+    for l1 in &lines_one {
+        for l2 in &lines_two {
+            if let Some(p) = get_intersection(l1, l2) {
+                if p.x != 0 || p.y != 0 {
+                    let distance = p.x.abs() as usize + p.y.abs() as usize;
+                    if distance < min_distance {
+                        min_distance = distance;
+                    }
+                }
+            }
+        }
+    }
+
+    Ok(min_distance)
+}
+
+fn get_intersection(l1: &Line, l2: &Line) -> Option<Point> {
+    use Direction::*;
+
+    match (l1.direction, l2.direction) {
+        (UP | DOWN, LEFT | RIGHT) => {
+            let (vline, hline) = (l1, l2);
+            let x = vline.start.x;
+            let y = hline.start.y;
+
+            if x >= hline.start.x.min(hline.end.x)
+                && x <= hline.start.x.max(hline.end.x)
+                && y >= vline.start.y.min(vline.end.y)
+                && y <= vline.start.y.max(vline.end.y)
+            {
+                Some(Point { x, y })
+            } else {
+                None
+            }
+        }
+        (LEFT | RIGHT, UP | DOWN) => get_intersection(l2, l1),
+        _ => None,
+    }
 }
