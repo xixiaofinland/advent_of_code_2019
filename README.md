@@ -32,3 +32,37 @@ enum Operation {
     Halt,
 }
 ```
+
+# D3
+## d3a
+
+```rust
+    let min_distance = lines_one
+        .iter()
+        .flat_map(|l1| {
+            lines_two
+                .iter()
+                .filter_map(move |l2| get_intersection(l1, l2))
+        })
+        .filter(|p| *p != Point::default())
+        .map(|p| p.x.abs() as usize + p.y.abs() as usize)
+        .min()
+        .unwrap_or(0);
+```
+
+v.s.
+
+```rust
+    for l1 in &lines_one {
+        for l2 in &lines_two {
+            if let Some(p) = get_intersection(l1, l2) {
+                if p.x != 0 || p.y != 0 {
+                    let distance = p.x.abs() as usize + p.y.abs() as usize;
+                    if distance < min_distance {
+                        min_distance = distance;
+                    }
+                }
+            }
+        }
+    }
+```
