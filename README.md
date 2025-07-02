@@ -68,6 +68,7 @@ v.s.
 ```
 
 - range construction, then `.contains()`
+
 ```rust
 (h.start.x.min(h.end.x)..=h.start.x.max(h.end.x)).contains(&x)
 ```
@@ -75,3 +76,24 @@ v.s.
 ## d3b
 
 Check `steps_to_point()`, it calculate the steps nicely!
+
+```rust
+fn steps_to_point(lines: &[Line], target: Point) -> Option<usize> {
+    let mut steps = 0;
+    for line in lines {
+        let (range_x, range_y) = (
+            line.start.x.min(line.end.x)..=line.start.x.max(line.end.x),
+            line.start.y.min(line.end.y)..=line.start.y.max(line.end.y),
+        );
+        if range_x.contains(&target.x) && range_y.contains(&target.y) {
+            steps +=
+                (target.x - line.start.x).abs() as usize + (target.y - line.start.y).abs() as usize;
+            return Some(steps);
+        } else {
+            steps += (line.end.x - line.start.x).abs() as usize
+                + (line.end.y - line.start.y).abs() as usize;
+        }
+    }
+    None
+}
+```
