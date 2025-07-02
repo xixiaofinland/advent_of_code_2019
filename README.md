@@ -66,3 +66,8 @@ v.s.
         }
     }
 ```
+
+- range construction, then `.contains()`
+```rust
+(h.start.x.min(h.end.x)..=h.start.x.max(h.end.x)).contains(&x)
+```
