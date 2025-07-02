@@ -71,3 +71,7 @@ v.s.
 ```rust
 (h.start.x.min(h.end.x)..=h.start.x.max(h.end.x)).contains(&x)
 ```
+
+## d3b
+
+Check `steps_to_point()`, it calculate the steps nicely!

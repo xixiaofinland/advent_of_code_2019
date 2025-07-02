@@ -78,7 +78,7 @@ impl Line {
 }
 
 pub fn solve_day3b() -> AoCResult<usize> {
-    let input = fs::read_to_string("data/input_day3a_simple.txt")?;
+    let input = fs::read_to_string("data/input_day3a.txt")?;
     let (wire1, wire2) = input.trim().split_once('\n').ok_or("Can't split lines")?;
 
     let lines_one = build_lines(wire1);
@@ -92,7 +92,7 @@ pub fn solve_day3b() -> AoCResult<usize> {
                 .filter_map(move |l2| get_intersection(l1, l2))
         })
         .filter(|p| *p != Point::default())
-        .map(|p| p.x.abs() as usize + p.y.abs() as usize)
+        .map(|p| steps_to_point(&lines_one, p).unwrap() + steps_to_point(&lines_two, p).unwrap())
         .min()
         .unwrap_or(0);
 
@@ -131,4 +131,23 @@ fn intersect(v: &Line, h: &Line) -> Option<Point> {
     } else {
         None
     }
+}
+
+fn steps_to_point(lines: &[Line], target: Point) -> Option<usize> {
+    let mut steps = 0;
+    for line in lines {
+        let (range_x, range_y) = (
+            line.start.x.min(line.end.x)..=line.start.x.max(line.end.x),
+            line.start.y.min(line.end.y)..=line.start.y.max(line.end.y),
+        );
+        if range_x.contains(&target.x) && range_y.contains(&target.y) {
+            steps +=
+                (target.x - line.start.x).abs() as usize + (target.y - line.start.y).abs() as usize;
+            return Some(steps);
+        } else {
+            steps += (line.end.x - line.start.x).abs() as usize
+                + (line.end.y - line.start.y).abs() as usize;
+        }
+    }
+    None
 }
