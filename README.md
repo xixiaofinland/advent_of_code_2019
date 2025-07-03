@@ -97,3 +97,26 @@ fn steps_to_point(lines: &[Line], target: Point) -> Option<usize> {
     None
 }
 ```
+
+# D4
+
+## d4a
+
+- `.to_digit(10)` for one char converting
+- `.windows(n)` is cool
+
+
+```rust
+fn found(num: usize) -> bool {
+    let digits: Vec<usize> = num
+        .to_string()
+        .chars()
+        .map(|c| c.to_digit(10).unwrap() as usize)
+        .collect();
+
+    let is_incremental = digits.windows(2).all(|w| w[0] <= w[1]);
+    let has_double = digits.windows(2).any(|w| w[0] == w[1]);
+
+    is_incremental && has_double
+}
+```
