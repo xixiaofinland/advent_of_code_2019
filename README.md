@@ -120,3 +120,24 @@ fn found(num: usize) -> bool {
     is_incremental && has_double
 }
 ```
+
+## d4b
+
+- `.windows()` has no built-in access to previous or next window, so "at least
+  one exact_pair" is better with `for_loop` rather than `iter.windows(2)`
+
+```rust
+let has_exact_pair = (0..digits.len() - 1).any(|i| {
+    digits[i] == digits[i + 1]
+        && (i == 0 || digits[i - 1] != digits[i])
+        && (i + 2 >= digits.len() || digits[i + 2] != digits[i])
+});
+```
+
+```rust
+let has_exact_pair = digits.windows(2).enumerate().any(|(i, w)| {
+    w[0] == w[1]
+        && (i == 0 || digits[i - 1] != w[0])
+        && (i + 2 >= digits.len() || digits[i + 2] != w[0])
+});
+```
