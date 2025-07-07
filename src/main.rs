@@ -1,7 +1,7 @@
-use aoc_2019::day4b::*;
+use aoc_2019::day5a::*;
 
 pub fn main() {
-    match solve_day4b() {
+    match solve_day5a() {
         Ok(count) => {
             println!("Result: {}", count);
         }
