@@ -15,9 +15,8 @@ pub fn solve_day6a() -> AoCResult<usize> {
         let line = line?;
         update_graph(line, &mut graph);
     }
-    eprintln!("gopro[2]: day6a.rs:13: graph={:#?}", graph);
 
-        let mut sum = 0;
+    let mut sum = 0;
     let mut queue: VecDeque<(String, usize)> = VecDeque::new(); // (node, depth)
     queue.push_back(("COM".to_string(), 0));
 
