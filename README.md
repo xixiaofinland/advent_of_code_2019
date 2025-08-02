@@ -141,3 +141,23 @@ let has_exact_pair = digits.windows(2).enumerate().any(|(i, w)| {
         && (i + 2 >= digits.len() || digits[i + 2] != w[0])
 });
 ```
+
+## d6a
+
+The `VecDeque` is smart for this BFS problem. It doesn't need to track level or
+level nodes separately!
+
+```rust
+let mut sum = 0;
+let mut queue: VecDeque<(String, usize)> = VecDeque::new(); // (node, depth)
+queue.push_back(("COM".to_string(), 0));
+
+while let Some((node, depth)) = queue.pop_front() {
+    sum += depth;
+    if let Some(children) = graph.get(&node) {
+        for child in children {
+            queue.push_back((child.clone(), depth + 1));
+        }
+    }
+}
+```

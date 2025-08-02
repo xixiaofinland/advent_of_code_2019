@@ -1,5 +1,5 @@
 use std::{
-    collections::HashMap,
+    collections::{HashMap, VecDeque},
     fs::File,
     io::{BufRead, BufReader},
 };
@@ -7,7 +7,7 @@ use std::{
 use crate::AoCResult;
 
 pub fn solve_day6a() -> AoCResult<usize> {
-    let file = File::open("data/input_day6a_simple.txt")?;
+    let file = File::open("data/input_day6a.txt")?;
     let reader = BufReader::new(file);
 
     let mut graph: HashMap<String, Vec<String>> = HashMap::new();
@@ -17,7 +17,20 @@ pub fn solve_day6a() -> AoCResult<usize> {
     }
     eprintln!("gopro[2]: day6a.rs:13: graph={:#?}", graph);
 
-    Ok(0)
+        let mut sum = 0;
+    let mut queue: VecDeque<(String, usize)> = VecDeque::new(); // (node, depth)
+    queue.push_back(("COM".to_string(), 0));
+
+    while let Some((node, depth)) = queue.pop_front() {
+        sum += depth;
+        if let Some(children) = graph.get(&node) {
+            for child in children {
+                queue.push_back((child.clone(), depth + 1));
+            }
+        }
+    }
+
+    Ok(sum)
 }
 
 fn update_graph(data: String, gragh: &mut HashMap<String, Vec<String>>) {
