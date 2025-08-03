@@ -162,7 +162,7 @@ while let Some((node, depth)) = queue.pop_front() {
 }
 ```
 
-`VecDeque` uses `&str` as the key is better, also fits map.get()
+Even better: `VecDeque` uses `&str` as the key, also fits map.get()
 
 ```rust
 let mut sum = 0;
