@@ -17,14 +17,14 @@ pub fn solve_day6a() -> AoCResult<usize> {
     }
 
     let mut sum = 0;
-    let mut queue: VecDeque<(String, usize)> = VecDeque::new(); // (node, depth)
-    queue.push_back(("COM".to_string(), 0));
+    let mut queue: VecDeque<(&str, usize)> = VecDeque::new(); // (node, depth)
+    queue.push_back(("COM", 0));
 
     while let Some((node, depth)) = queue.pop_front() {
         sum += depth;
-        if let Some(children) = graph.get(&node) {
+        if let Some(children) = graph.get(node) {
             for child in children {
-                queue.push_back((child.clone(), depth + 1));
+                queue.push_back((child.as_str(), depth + 1));
             }
         }
     }
