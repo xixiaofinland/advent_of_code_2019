@@ -161,3 +161,20 @@ while let Some((node, depth)) = queue.pop_front() {
     }
 }
 ```
+
+`VecDeque` uses `&str` as the key is better, also fits map.get()
+
+```rust
+let mut sum = 0;
+let mut queue: VecDeque<(&str, usize)> = VecDeque::new(); // (node, depth)
+queue.push_back(("COM", 0));
+
+while let Some((node, depth)) = queue.pop_front() {
+    sum += depth;
+    if let Some(children) = graph.get(node) {
+        for child in children {
+            queue.push_back((child.as_str(), depth + 1));
+        }
+    }
+}
+```
