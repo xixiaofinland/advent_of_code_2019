@@ -178,3 +178,13 @@ while let Some((node, depth)) = queue.pop_front() {
     }
 }
 ```
+# d8a
+
+`min_by_key` usage
+
+```rust
+let min_layer = layers
+    .iter()
+    .min_by_key(|l| l.iter().filter(|&&c| c == '0').count())
+    .unwrap();
+```
