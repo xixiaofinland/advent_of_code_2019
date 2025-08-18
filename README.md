@@ -178,7 +178,10 @@ while let Some((node, depth)) = queue.pop_front() {
     }
 }
 ```
-# d8a
+
+# D8
+
+## d8a
 
 `min_by_key` usage
 
@@ -188,3 +191,41 @@ let min_layer = layers
     .min_by_key(|l| l.iter().filter(|&&c| c == '0').count())
     .unwrap();
 ```
+
+## d8b
+
+vec with capacity if we know excat size:
+
+```rust
+let mut v = Vec::with_capacity(150);
+```
+
+compare my and its code :)
+
+```rust
+(0..150).for_each(|i| {
+    for layer in &layers {
+        match layer[i] {
+            '0' | '1' => {
+                v.push(layer[i]);
+                break;
+            }
+            '2' => continue,
+            _ => unreachable!(),
+        }
+    }
+});
+```
+
+```rust
+for i in 0..150 {
+    let pixel = layers
+        .iter()
+        .map(|layer| layer[i])
+        .find(|&c| c != '2')
+        .unwrap_or('2'); // Shouldn't happen, but be safe
+    final_image.push(pixel);
+}
+```
+
+
