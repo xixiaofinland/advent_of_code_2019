@@ -1,7 +1,5 @@
-use itertools::Update;
-
 use crate::AoCResult;
-use std::{collections::HashSet, fs, ops::Bound};
+use std::{collections::HashSet, fs};
 
 pub fn solve_day9a() -> AoCResult<usize> {
     let input = fs::read_to_string("data/input_day9a_simple.txt")?;
