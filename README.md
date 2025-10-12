@@ -135,10 +135,13 @@ B.
 2. `visible_dirs` is a hashmap so we automatically store only one "unique
 directions" from multiple target asteroids.
 
-* You might attempted to use line's slope(= dy / dx) to solve this problem, but
-  then you need to handle +/-(opposite directions) and floating numbers. So
-  gcd() is still the optimal solution.
+This means: The “unique direction” trick comes from realizing visibility depends
+only on direction, not distance — and GCD gives a perfect integer representation
+of direction.
 
+You might attempted to use line's slope(= dy / dx) to solve this problem, but
+then you need to handle +/-(opposite directions) and floating numbers. So gcd()
+is still the optimal solution.
 
 Then, read the solution code to check how simple it is!
 
