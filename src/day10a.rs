@@ -5,8 +5,8 @@ pub fn solve_day10a() -> AoCResult<usize> {
     let input = fs::read_to_string("data/input_day10a.txt")?;
 
     let mut asteroids = HashSet::new();
-    for (x, line) in input.lines().enumerate() {
-        for (y, c) in line.chars().enumerate() {
+    for (y, line) in input.lines().enumerate() {
+        for (x, c) in line.chars().enumerate() {
             if c == '#' {
                 asteroids.insert((x as isize, y as isize));
             }
@@ -38,10 +38,5 @@ pub fn solve_day10a() -> AoCResult<usize> {
 }
 
 fn gcd(a: isize, b: isize) -> isize {
-    if b == 0 {
-        a.abs()
-    } else {
-        gcd(b, a % b)
-    }
+    if b == 0 { a.abs() } else { gcd(b, a % b) }
 }
-
