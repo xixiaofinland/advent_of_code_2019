@@ -87,19 +87,8 @@ fn parse_input_simple(path: &str) -> Vec<Moon> {
 // fixme: wrong result
 pub fn solve_day12a() -> AoCResult<usize> {
     let mut moons = parse_input_simple("data/input_day12a.txt");
-    eprintln!("gopro[11]: {}:{}: moons={:?}", file!(), line!(), moons);
     for step in 0..1000 {
         simulate(&mut moons);
-
-        if step < 10 {
-            eprintln!("\nAfter step {}:", step + 1);
-            for (i, moon) in moons.iter().enumerate() {
-                eprintln!(
-                    "Moon {}: pos=<{},{},{}> vel=<{},{},{}>",
-                    i, moon.pos.x, moon.pos.y, moon.pos.z, moon.vel.x, moon.vel.y, moon.vel.z
-                );
-            }
-        }
     }
 
     Ok(total_energy(&moons).try_into()?)
